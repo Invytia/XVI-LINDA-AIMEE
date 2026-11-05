@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dulces XVI | Invytia Premium</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@200;400;600&family=Great+Vibes&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --vino: #4A0014;
+            --vino-medio: #6B0020;
+            --salvia: #6B8B7E;
+            --salvia-claro: #DCE6E0;
+            --rosa-polvo: #D4A59A;
+            --blush: #E8D5CB;
+            --crema: #F8F0EB;
+        }
+        body { font-family: 'Montserrat', sans-serif; background-color: var(--crema); color: var(--vino); margin: 0; overflow-x: hidden; }
+        .font-name { font-family: 'Playfair Display', serif; }
+        .font-cursive { font-family: 'Great Vibes', cursive; }
+
+        /* SOBRE */
+        #envelope-wrapper { perspective: 1000px; position: relative; z-index: 60; }
+        #envelope {
+            width: 320px; height: 220px; background: white; position: relative;
+            box-shadow: 0 25px 60px -10px rgba(0,0,0,0.55); border-radius: 0 0 12px 12px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        #flap {
+            position: absolute; top: 0; left: 0; width: 0; height: 0;
+            border-left: 160px solid transparent; border-right: 160px solid transparent;
+            border-top: 90px solid var(--vino-medio);
+            transform-origin: top;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1); z-index: 2;
+        }
+        .open #flap { transform: rotateX(180deg); }
+        .envelope-content { position: relative; z-index: 1; padding-top: 45px; text-align: center; }
+
+        #music-control {
+            position: fixed; bottom: 25px; right: 25px; z-index: 200;
+            padding: 12px 24px; background: white; border-radius: 50px;
+            align-items: center; justify-content: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12); cursor: pointer; display: none;
+            font-size: 10px; font-weight: 800; letter-spacing: 2px;
+            border: 1px solid var(--salvia); color: var(--vino);
+        }
+
+        /* FOTOS COMPLETAS (sin recortar) */
+        .foto-wrap { max-width: 440px; margin: 0 auto; padding: 0 24px; }
+        .foto {
+            display: block; width: 100%; height: auto; border-radius: 2rem;
+            box-shadow: 0 18px 40px rgba(74,0,20,0.18); border: 6px solid white;
+            background: white;
+        }
+
+        /* BRILLOS */
+        .sparkle-glow { animation: pulseSparkle 2s infinite ease-in-out alternate; }
+        @keyframes pulseSparkle {
+            0% { transform: scale(0.6) rotate(0deg); opacity: 0.2; }
+            100% { transform: scale(1.1) rotate(90deg); opacity: 0.8; }
+        }
+        .anim-fade-up { opacity: 0; transform: translateY(30px); transition: all 1s cubic-bezier(0.25, 1, 0.5, 1); }
+        .anim-fade-up.visible { opacity: 1; transform: translateY(0); }
+        #main-content { opacity: 0; transition: opacity 1.5s ease; }
+        .show-content { opacity: 1 !important; }
+
+        /* LÍNEA DE TIEMPO */
+        .timeline { position: relative; max-width: 380px; margin: 0 auto; }
+        .timeline::before { content: ""; position: absolute; left: 88px; top: 6px; bottom: 6px; width: 2px; background: var(--salvia); opacity: .5; }
+        .t-item { display: flex; align-items: center; gap: 0; margin-bottom: 26px; position: relative; }
+        .t-hora { width: 76px; text-align: right; font-weight: 700; color: var(--vino-medio); font-size: 15px; letter-spacing: .05em; }
+        .t-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--vino-medio); border: 3px solid white; box-shadow: 0 0 0 1px var(--salvia); margin: 0 18px 0 0; flex-shrink: 0; }
+        .t-texto { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--vino); text-align: left; }
+    </style>
+</head>
+<body class="overflow-hidden">
+
+    <audio id="invite-music" loop><source src="assets/song.mp3" type="audio/mpeg"></audio>
+    <div id="music-control" onclick="toggleMusic()"><span id="music-text">PAUSAR</span></div>
+
+    <!-- APERTURA -->
+    <div id="opening-overlay" class="fixed inset-0 z-[100] flex flex-col items-center justify-center transition-opacity duration-1000 overflow-hidden">
+        <img src="assets/1.jpg" alt="" class="absolute inset-0 w-full h-full object-cover">
+        <div class="absolute inset-0" style="background: linear-gradient(to top, rgba(74,0,20,0.95) 0%, rgba(74,0,20,0.7) 45%, rgba(74,0,20,0.55) 100%);"></div>
+        <div class="absolute inset-4 md:inset-8 pointer-events-none" style="border: 1px solid rgba(255,255,255,0.45); border-radius: 2rem;"></div>
+        <svg class="absolute sparkle-glow" style="top: 12%; left: 12%; width: 24px; color: rgba(255,255,255,0.8);" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5Z"/></svg>
+        <svg class="absolute sparkle-glow" style="top: 22%; right: 14%; width: 34px; color: rgba(255,255,255,0.6); animation-delay: -1s;" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5Z"/></svg>
+        <svg class="absolute sparkle-glow" style="bottom: 14%; left: 18%; width: 20px; color: rgba(232,213,203,0.8); animation-delay: -0.5s;" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5Z"/></svg>
+
+        <p class="relative z-10 font-name uppercase text-white text-sm md:text-lg font-bold mb-10 px-6 text-center" style="letter-spacing: 0.4em; text-shadow: 0 2px 14px rgba(0,0,0,0.5);">Estás invitado</p>
+
+        <div id="envelope-wrapper">
+            <div id="envelope">
+                <div id="flap"></div>
+                <div class="envelope-content">
+                    <p class="font-name uppercase text-[11px] font-bold" style="letter-spacing: 0.35em; color: var(--vino);">Mis Dulces XVI</p>
+                    <h2 class="font-cursive text-5xl mt-1 nombre" style="color: var(--vino-medio); line-height: 1.1;">Linda Aimee</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="relative z-10 flex items-center justify-center gap-3 mt-10">
+            <span style="width: 40px; height: 1px; background: rgba(255,255,255,0.7);"></span>
+            <svg style="width: 12px; color: white;" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5Z"/></svg>
+            <span style="width: 40px; height: 1px; background: rgba(255,255,255,0.7);"></span>
+        </div>
+
+        <button onclick="iniciarApertura()" id="btn-abrir" class="mt-8 px-10 py-3 rounded-full font-name font-bold tracking-[0.3em] text-xs hover:scale-105 transition-all relative z-10" style="background: var(--blush); color: var(--vino); box-shadow: 0 10px 25px rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.7);">
+            ABRIR INVITACIÓN
+        </button>
+    </div>
+
+    <main id="main-content" class="hidden relative">
+
+        <!-- HERO (foto 1) -->
+        <section class="relative min-h-[100vh] w-full flex items-end justify-center pb-16 overflow-hidden">
+            <img src="assets/1.jpg" alt="Portada" class="absolute inset-0 w-full h-full object-cover">
+            <div class="absolute inset-0" style="background: linear-gradient(to top, rgba(74,0,20,0.92) 0%, rgba(74,0,20,0.55) 35%, rgba(74,0,20,0.08) 65%, transparent 100%);"></div>
+            <div class="absolute inset-4 md:inset-8 pointer-events-none" style="border: 1px solid rgba(255,255,255,0.45); border-radius: 2rem;"></div>
+            <svg class="absolute sparkle-glow" style="top: 12%; left: 12%; width: 24px; color: rgba(255,255,255,0.8);" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5Z"/></svg>
+            <svg class="absolute sparkle-glow" style="top: 20%; right: 14%; width: 34px; color: rgba(255,255,255,0.6); animation-delay: -1s;" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5Z"/></svg>
+            <div class="relative text-center px-6" style="text-shadow: 0 2px 18px rgba(0,0,0,0.45);">
+                <p class="font-name uppercase text-white text-lg md:text-2xl font-bold" style="letter-spacing: 0.4em;">Mis Dulces XVI</p>
+                <div class="flex items-center justify-center gap-3 my-4">
+                    <span style="width: 50px; height: 1px; background: rgba(255,255,255,0.7);"></span>
+                    <svg style="width: 12px; color: white;" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5Z"/></svg>
+                    <span style="width: 50px; height: 1px; background: rgba(255,255,255,0.7);"></span>
+                </div>
+                <h1 class="font-cursive text-7xl md:text-9xl nombre" style="color: var(--blush); line-height: 1.1;">Linda Aimee</h1>
+                <p class="font-name text-white text-sm md:text-base mt-6" style="letter-spacing: 0.3em;">29 · NOVIEMBRE · 2026</p>
+            </div>
+        </section>
+
+        <!-- CUENTA REGRESIVA -->
+        <section class="py-16 text-center relative overflow-hidden" style="background: linear-gradient(to bottom, var(--crema), var(--blush));">
+            <p class="uppercase tracking-[0.3em] text-[10px] font-bold mb-6" style="color: var(--salvia);">Faltan</p>
+            <div class="flex justify-center gap-3 md:gap-8 px-4">
+                <div class="flex flex-col items-center justify-center bg-white rounded-2xl w-20 h-24 md:w-24 md:h-28" style="border: 1px solid rgba(107,139,126,0.4); box-shadow: 0 8px 20px rgba(74,0,20,0.08);">
+                    <span id="days" class="font-name text-3xl md:text-4xl font-bold">00</span>
+                    <span class="text-[10px] uppercase tracking-widest mt-1 font-bold" style="color: var(--salvia);">Días</span>
+                </div>
+                <div class="flex flex-col items-center justify-center bg-white rounded-2xl w-20 h-24 md:w-24 md:h-28" style="border: 1px solid rgba(107,139,126,0.4); box-shadow: 0 8px 20px rgba(74,0,20,0.08);">
+                    <span id="hours" class="font-name text-3xl md:text-4xl font-bold">00</span>
+                    <span class="text-[10px] uppercase tracking-widest mt-1 font-bold" style="color: var(--salvia);">Hrs</span>
+                </div>
+                <div class="flex flex-col items-center justify-center bg-white rounded-2xl w-20 h-24 md:w-24 md:h-28" style="border: 1px solid rgba(107,139,126,0.4); box-shadow: 0 8px 20px rgba(74,0,20,0.08);">
+                    <span id="minutes" class="font-name text-3xl md:text-4xl font-bold">00</span>
+                    <span class="text-[10px] uppercase tracking-widest mt-1 font-bold" style="color: var(--salvia);">Min</span>
+                </div>
+                <div class="flex flex-col items-center justify-center bg-white rounded-2xl w-20 h-24 md:w-24 md:h-28" style="border: 1px solid rgba(107,139,126,0.4); box-shadow: 0 8px 20px rgba(74,0,20,0.08);">
+                    <span id="seconds" class="font-name text-3xl md:text-4xl font-bold">00</span>
+                    <span class="text-[10px] uppercase tracking-widest mt-1 font-bold" style="color: var(--salvia);">Seg</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- FECHA + CALENDARIO (foto 2) -->
+        <section class="pt-4 pb-20 text-center relative overflow-hidden" style="background: linear-gradient(to bottom, var(--blush), var(--crema));">
+            <p class="uppercase tracking-[0.3em] text-[11px] font-bold mb-4" style="color: var(--salvia);">Domingo</p>
+            <h2 class="font-name text-4xl md:text-6xl font-bold tracking-[0.15em] uppercase">29 de Noviembre</h2>
+            <p class="font-name text-2xl mt-4 tracking-[0.1em]">2026</p>
+
+            <div class="max-w-xs mx-auto mt-10 bg-white rounded-3xl p-6 shadow-xl anim-fade-up" style="border: 1px solid rgba(107,139,126,0.35);">
+                <p class="font-name text-xl uppercase tracking-[0.25em] mb-4" style="color: var(--vino);">Noviembre 2026</p>
+                <div id="calendario" class="grid grid-cols-7 gap-y-2 text-sm"></div>
+                <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Dulces+XVI+de+Linda+Aimee&dates=20261129T150000/20261130T020000&ctz=America/Mexico_City&location=Sal%C3%B3n+Dalias%2C+Calle+Ignacio+L%C3%B3pez+Ray%C3%B3n+Tejocote+320%2C+Santiago+Miltepec%2C+M%C3%A9xico&details=Dulces+XVI" target="_blank" class="inline-block mt-6 px-6 py-3 text-white rounded-2xl text-[10px] tracking-widest font-bold shadow-lg" style="background-color: var(--vino);">AGREGAR A MI CALENDARIO</a>
+            </div>
+
+            <div class="foto-wrap mt-12 anim-fade-up"><img src="assets/2.jpg" alt="Foto 2" class="foto"></div>
+        </section>
+
+        <!-- VERSÍCULO (foto 3) -->
+        <section class="py-20 px-6 text-center relative overflow-hidden" style="background: linear-gradient(to bottom, var(--blush), var(--crema));">
+            <div class="max-w-xl mx-auto anim-fade-up">
+                <svg class="w-10 h-10 mx-auto mb-4" style="color: var(--salvia);" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5Z"/></svg>
+                <p class="font-name italic text-xl leading-relaxed" style="color: var(--vino);">
+                    Me he deleitado en Jehová, y lo he visto concederme los anhelos de mi corazón
+                </p>
+                <p class="uppercase tracking-[0.3em] text-[11px] font-bold mt-4" style="color: var(--salvia);">Salmos 37:4</p>
+            </div>
+            <div class="foto-wrap mt-12 anim-fade-up"><img src="assets/3.jpg" alt="Foto 3" class="foto"></div>
+        </section>
+
+        <!-- MENSAJE (foto 4) -->
+        <section class="py-16 px-6 text-center bg-white">
+            <div class="max-w-xl mx-auto anim-fade-up space-y-5 text-sm md:text-base leading-relaxed" style="color: var(--vino); opacity: .9;">
+                <p>Con todo mi corazón agradecido con Dios, quiero invitarte a celebrar mis <span class="font-semibold">Dulces XVI</span>.</p>
+                <p>Gracias a Él puedo cumplir este sueño, estar rodeada de mi familia y compartir con las personas que más amo.</p>
+                <p>Será un día muy especial para mí, y me encantaría que estuvieras ahí para celebrar, reír y dar gracias a Dios conmigo por esta bendición.</p>
+            </div>
+            <div class="foto-wrap mt-12 anim-fade-up"><img src="assets/4.jpg" alt="Foto 4" class="foto"></div>
+        </section>
+
+        <!-- PADRES (foto 5) -->
+        <section class="py-20 px-6 text-center relative overflow-hidden" style="background: linear-gradient(to bottom, white, var(--salvia-claro), var(--crema));">
+            <div class="max-w-2xl mx-auto py-12 anim-fade-up" style="border-top: 2px solid rgba(107,0,32,0.35); border-bottom: 2px solid rgba(107,0,32,0.35);">
+                <p class="uppercase tracking-[0.3em] text-[11px] font-bold mb-6 opacity-70">Con la bendición de mis padres</p>
+                <h3 class="font-cursive text-4xl md:text-5xl font-bold">Gabriel Jaimes Navarrete</h3>
+                <p class="font-cursive text-3xl my-2" style="color: var(--vino-medio);">&amp;</p>
+                <h3 class="font-cursive text-4xl md:text-5xl font-bold">Linda Jennifer Borja Maya</h3>
+            </div>
+            <div class="foto-wrap mt-12 anim-fade-up"><img src="assets/5.jpg" alt="Foto 5" class="foto"></div>
+        </section>
+
+        <!-- ITINERARIO (foto 6) -->
+        <section class="py-20 px-6 text-center bg-white">
+            <h2 class="font-cursive text-5xl mb-10">Itinerario</h2>
+            <div class="timeline anim-fade-up">
+                <div class="t-item"><span class="t-hora">3:00</span><span class="t-dot"></span><span class="t-texto">Recepción</span></div>
+                <div class="t-item"><span class="t-hora">3:30</span><span class="t-dot"></span><span class="t-texto">Ceremonia</span></div>
+                <div class="t-item"><span class="t-hora">4:30</span><span class="t-dot"></span><span class="t-texto">Comida</span></div>
+                <div class="t-item"><span class="t-hora">6:00</span><span class="t-dot"></span><span class="t-texto">Vals</span></div>
+                <div class="t-item"><span class="t-hora">7:30</span><span class="t-dot"></span><span class="t-texto">Pastel</span></div>
+            </div>
+            <div class="foto-wrap mt-12 anim-fade-up"><img src="assets/6.jpg" alt="Foto 6" class="foto"></div>
+        </section>
+
+        <!-- UBICACIÓN (foto 7) -->
+        <section class="py-16 px-4 md:px-8" style="background-color: var(--crema);">
+            <div class="max-w-2xl mx-auto rounded-[3rem] overflow-hidden shadow-xl anim-fade-up bg-white" style="border: 1px solid rgba(107,139,126,0.3);">
+                <div class="p-8 text-center">
+                    <h2 class="font-name text-3xl mb-1">Salón Dalias</h2>
+                    <p class="text-sm leading-relaxed mt-3" style="opacity:.75;">
+                        Calle Ignacio López Rayón, Tejocote #320<br>
+                        C.P. 50010, Santiago Miltepec, México
+                    </p>
+                </div>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3764.75314755649!2d-99.65899032451951!3d19.336515143742066!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d2763ffd76b877%3A0x60064be939101d92!2sDalias!5e0!3m2!1ses-419!2smx!4v1793921358657!5m2!1ses-419!2smx" width="100%" height="320" style="border:0; display:block;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                <div class="p-8 flex flex-col sm:flex-row gap-3 justify-center">
+                    <a href="https://maps.app.goo.gl/vbXhHWdyKxKUEMGYA" target="_blank" class="inline-flex items-center justify-center gap-2 px-6 py-4 text-white rounded-2xl text-[10px] tracking-widest font-bold shadow-lg" style="background-color: var(--vino);">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                        GOOGLE MAPS
+                    </a>
+                    <a href="https://waze.com/ul?ll=19.336515,-99.658990&navigate=yes" target="_blank" class="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl text-[10px] tracking-widest font-bold shadow-lg" style="border: 2px solid var(--salvia); color: var(--salvia);">WAZE</a>
+                </div>
+            </div>
+            <div class="foto-wrap mt-12 anim-fade-up"><img src="assets/7.jpg" alt="Foto 7" class="foto"></div>
+        </section>
+
+        <!-- DRESS CODE (foto 8) -->
+        <section class="py-16 px-8 text-center bg-white">
+            <div class="anim-fade-up">
+                <svg class="w-12 h-12 mx-auto mb-3" style="color: var(--salvia);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09l2.846.813-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456z"></path></svg>
+                <h2 class="font-name text-2xl mb-4">Código de Vestimenta</h2>
+                <p class="uppercase tracking-[0.2em] text-lg font-bold mb-2">Formal</p>
+                <p class="font-light italic max-w-sm mx-auto" style="color: var(--vino-medio);">Todos los colores, menos rosa.</p>
+            </div>
+            <div class="foto-wrap mt-12 anim-fade-up"><img src="assets/8.jpg" alt="Foto 8" class="foto"></div>
+        </section>
+
+        <!-- CONFIRMACIÓN (foto 9) -->
+        <section class="py-16 px-6" style="background: linear-gradient(to bottom, var(--crema), var(--blush));" id="confirmacion">
+            <div class="max-w-md mx-auto bg-white p-10 rounded-[3rem] shadow-xl text-center anim-fade-up" style="border: 1px solid rgba(107,139,126,0.3);">
+                <h2 class="font-name text-2xl mb-6 uppercase tracking-widest">Confirmar</h2>
+                <input type="text" id="rsvp-nombre" placeholder="Nombre completo" class="w-full p-4 mb-4 rounded-2xl outline-none" style="background-color: rgba(107,139,126,0.1); border: 1px solid rgba(107,139,126,0.4); color: var(--vino);">
+                <select id="rsvp-asistencia" class="w-full p-4 mb-6 rounded-2xl outline-none" style="background-color: rgba(107,139,126,0.1); border: 1px solid rgba(107,139,126,0.4); color: var(--vino);">
+                    <option value="Confirmado">Sí, asistiré</option>
+                    <option value="No asistirá">No podré asistir</option>
+                </select>
+                <button onclick="procesarConfirmacion()" class="w-full py-4 text-white rounded-2xl font-bold tracking-widest text-[10px]" style="background-color: var(--vino);">CONFIRMAR POR WHATSAPP</button>
+            </div>
+            <div class="foto-wrap mt-12 anim-fade-up"><img src="assets/9.jpg" alt="Foto 9" class="foto"></div>
+        </section>
+
+        <!-- BUENOS DESEOS (foto 10) -->
+        <section class="py-16 px-6 text-center bg-white">
+            <h2 class="font-name text-3xl mb-8 anim-fade-up">Buenos Deseos</h2>
+            <div class="max-w-2xl mx-auto space-y-4 anim-fade-up">
+                <textarea id="muro-mensaje" placeholder="Déjale un mensaje lindo..." class="w-full h-40 p-8 rounded-3xl outline-none italic resize-none" style="background-color: var(--crema); border: 1px solid rgba(107,139,126,0.4); color: var(--vino);"></textarea>
+                <input type="text" id="muro-nombre" placeholder="Tu nombre" class="w-full p-4 rounded-2xl outline-none" style="background-color: var(--crema); border: 1px solid rgba(107,139,126,0.4); color: var(--vino);">
+                <button onclick="enviarDeseo()" class="px-12 py-4 rounded-full font-bold text-[10px] tracking-widest" style="border: 2px solid var(--salvia); color: var(--salvia);">ENVIAR POR WHATSAPP</button>
+            </div>
+            <div class="foto-wrap mt-12 anim-fade-up"><img src="assets/10.jpg" alt="Foto 10" class="foto"></div>
+        </section>
+
+        <!-- CIERRE (foto 11) -->
+        <section class="py-16 px-6 text-center" style="background: linear-gradient(to bottom, white, var(--salvia-claro));">
+            <div class="foto-wrap anim-fade-up"><img src="assets/11.jpg" alt="Foto 11" class="foto"></div>
+            <p class="font-cursive text-4xl mt-10 anim-fade-up">¡Te espero!</p>
+            <p class="font-cursive text-3xl mt-2 nombre" style="color: var(--vino-medio);">Linda Aimee</p>
+        </section>
+
+        <footer class="py-10 text-center text-[9px] tracking-[0.5em]" style="color: rgba(107,0,32,0.5);">INVYTIA PLATINUM EXPERIENCE</footer>
+    </main>
+
+    <script>
+        // ====== CONFIGURACIÓN ======
+        const NOMBRE = "Linda Aimee";              // <-- Cambia aquí el nombre de la quinceañera
+        const WHATSAPP = "527225940028";
+        const FECHA_EVENTO = "November 29, 2026 15:00:00";
+        // ===========================
+
+        const audio = document.getElementById('invite-music');
+        const musicText = document.getElementById('music-text');
+        document.querySelectorAll('.nombre').forEach(el => el.textContent = NOMBRE);
+
+
+        // Calendario noviembre 2026 (1 de nov = domingo)
+        (function(){
+            const c = document.getElementById('calendario');
+            let h = ['D','L','M','M','J','V','S'].map(d => `<span class="font-bold text-[11px]" style="color: var(--salvia);">${d}</span>`).join('');
+            for (let d = 1; d <= 30; d++) {
+                h += d === 29
+                    ? `<span class="mx-auto flex items-center justify-center w-8 h-8 rounded-full text-white font-bold" style="background: var(--vino-medio); box-shadow: 0 4px 10px rgba(107,0,32,0.35);">${d}</span>`
+                    : `<span class="flex items-center justify-center w-8 h-8 mx-auto" style="opacity:.75;">${d}</span>`;
+            }
+            c.innerHTML = h;
+        })();
+
+        function iniciarApertura() {
+            document.getElementById('envelope-wrapper').classList.add('open');
+            document.getElementById('btn-abrir').style.display = 'none';
+            audio.play().catch(() => console.log("Audio deferred"));
+            document.getElementById('music-control').style.display = 'flex';
+
+            setTimeout(() => {
+                document.getElementById('opening-overlay').style.opacity = '0';
+                document.getElementById('main-content').classList.remove('hidden');
+                initObserver();
+                setTimeout(() => {
+                    document.getElementById('opening-overlay').style.display = 'none';
+                    document.getElementById('main-content').classList.add('show-content');
+                    document.body.style.overflowY = 'auto';
+                    startCountdown();
+                }, 1000);
+            }, 1500);
+        }
+
+        function initObserver() {
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.anim-fade-up').forEach(el => observer.observe(el));
+        }
+
+        function procesarConfirmacion() {
+            const nombre = document.getElementById('rsvp-nombre').value.trim();
+            const asistencia = document.getElementById('rsvp-asistencia').value;
+            if (!nombre) return alert("Por favor escribe tu nombre");
+            const msg = `¡Hola! Confirmo mi asistencia a los Dulces XVI de ${NOMBRE}: ${nombre}. Estado: ${asistencia}`;
+            window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        function enviarDeseo() {
+            const mensaje = document.getElementById('muro-mensaje').value.trim();
+            const nombre = document.getElementById('muro-nombre').value.trim();
+            if (!mensaje || !nombre) return alert("Llena ambos campos");
+            const msg = `Buenos deseos para ${NOMBRE} 💛\n\n"${mensaje}"\n\n— ${nombre}`;
+            window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`, '_blank');
+            document.getElementById('muro-mensaje').value = "";
+            document.getElementById('muro-nombre').value = "";
+        }
+
+        function startCountdown() {
+            const target = new Date(FECHA_EVENTO).getTime();
+            const tick = () => {
+                const dist = target - new Date().getTime();
+                if (dist > 0) {
+                    document.getElementById("days").innerText = Math.floor(dist / 86400000);
+                    document.getElementById("hours").innerText = Math.floor((dist % 86400000) / 3600000);
+                    document.getElementById("minutes").innerText = Math.floor((dist % 3600000) / 60000);
+                    document.getElementById("seconds").innerText = Math.floor((dist % 60000) / 1000);
+                }
+            };
+            tick();
+            setInterval(tick, 1000);
+        }
+
+        function toggleMusic() {
+            if (audio.paused) { audio.play(); musicText.innerText = "PAUSAR"; }
+            else { audio.pause(); musicText.innerText = "REANUDAR"; }
+        }
+    </script>
+</body>
+</html>
